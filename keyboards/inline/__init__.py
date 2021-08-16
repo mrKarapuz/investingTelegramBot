@@ -1,0 +1,1 @@
+from .choise_comparison import choise_inline_comparison
