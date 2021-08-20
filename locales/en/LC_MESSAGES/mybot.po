@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-08-20 14:53+0300\n"
+"POT-Creation-Date: 2021-08-20 15:15+0300\n"
 "PO-Revision-Date: 2021-08-15 21:12+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -77,27 +77,27 @@ msgstr "EPS"
 msgid "Цена\\прибыль"
 msgstr "P\\E"
 
-#: handlers/users/comparison.py:45
+#: handlers/users/comparison.py:47
 msgid "Сравнение компаний по признаку: "
 msgstr "Comparison of companies based on: "
 
-#: handlers/users/comparison.py:57 handlers/users/comparison.py:62
+#: handlers/users/comparison.py:59 handlers/users/comparison.py:64
 #: handlers/users/information_from_ticker.py:20
 msgid "Отмена"
 msgstr "Cancel"
 
-#: handlers/users/comparison.py:60 handlers/users/information_from_ticker.py:18
+#: handlers/users/comparison.py:62 handlers/users/information_from_ticker.py:18
 #: keyboards/default/choise_information_from_tiker_button.py:22
 #: keyboards/default/start_button.py:24
 #: keyboards/inline/choise_comparison.py:78
 msgid "Назад 👈"
 msgstr "Back 👈"
 
-#: handlers/users/comparison.py:65 keyboards/default/start_button.py:11
+#: handlers/users/comparison.py:67 keyboards/default/start_button.py:11
 msgid "Сравнить компании 🧐"
 msgstr "Compare companies 🧐"
 
-#: handlers/users/comparison.py:67
+#: handlers/users/comparison.py:69
 msgid ""
 "Данные состоянием на утро сегодняшнего дня\n"
 "По какому признаку сравнивать?"
@@ -105,23 +105,23 @@ msgstr ""
 "Data as of today morning \n"
 "What is the basis for comparing?"
 
-#: handlers/users/comparison.py:77
+#: handlers/users/comparison.py:79
+#, fuzzy
 msgid ""
 "Выбранный атрибут: \"{attr}\" \n"
 "Введите тикеры компаний через пробел (в любом регистре)\n"
-"Для формирования наглядного сравнения выберите не более 50 (10 если "
-"сравниваете по цене акции) компаний"
+"Для формирования наглядного сравнения выберите не более 50 компаний"
 msgstr ""
 "Selected attribute: \"{attr}\" \n"
 "Enter company tickers separated by a space (in any case) \n"
-"To form a visual comparison, select no more than 50 (10 if compare by "
-"share price) of companies"
+"To form a visual comparison, select no more than 50 "
+"of companies"
 
-#: handlers/users/comparison.py:89
+#: handlers/users/comparison.py:91
 msgid "Для формирования наглядного сравнения выберите не более 50 компаний"
 msgstr "To form a visual comparison, select no more than 50 companies"
 
-#: handlers/users/comparison.py:93
+#: handlers/users/comparison.py:95
 msgid ""
 "Сбор информации...\n"
 "Процесс может занять несколько минут"
@@ -129,21 +129,22 @@ msgstr ""
 "Gathering information ...\n"
 "The process may take several minutes."
 
-#: handlers/users/comparison.py:110
-msgid "Для формирования наглядного графика выберите не более 10 компаний"
+#: handlers/users/comparison.py:112
+#, fuzzy
+msgid "Для формирования графика выберите не более 10 компаний"
 msgstr "To form a visual graph, select no more than 10 companies"
 
-#: handlers/users/comparison.py:112
+#: handlers/users/comparison.py:114
 msgid "Выберите период для формирования графика изменения цены акции"
 msgstr ""
 "Select the period for the formation of the schedule of changes in the "
 "stock price"
 
-#: handlers/users/comparison.py:142
+#: handlers/users/comparison.py:143
 msgid "Ошибка, данных тикеров не существует: {errors_ticker}"
 msgstr "Error, no ticker data exists: {errors_ticker}"
 
-#: handlers/users/comparison.py:147
+#: handlers/users/comparison.py:148
 #: handlers/users/information_from_ticker.py:27
 #: handlers/users/information_from_ticker.py:36
 #: handlers/users/information_from_ticker.py:45

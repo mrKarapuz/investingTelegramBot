@@ -32,6 +32,8 @@ sings = {
 }
 
 def return_comparison_graphics(x, y, attribute, answer_user, listx):
+    '''Формирование графиков сравнения компаний (для цифровых значений)'''
+    # Определение размера графика в зависимости от количества сравниваемых тикеров
     if 30 > str(tickers).count(' ') > 15:
         fig = plt.figure(figsize=(8,8),facecolor='#e8e8e8')
     elif str(tickers).count(' ') > 30:
@@ -74,7 +76,7 @@ async def enter_the_tickers(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_reply_markup()
     await state.update_data(attribute = call.data)
     await dp.bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
-    msg = await call.message.answer(text=_('Выбранный атрибут: "{attr}" \nВведите тикеры компаний через пробел (в любом регистре)\nДля формирования наглядного сравнения выберите не более 50 (10 если сравниваете по цене акции) компаний').format(attr=str(sings[attribute_of_comparison])), reply_markup=cancel_button)
+    msg = await call.message.answer(text=_('Выбранный атрибут: "{attr}" \nВведите тикеры компаний через пробел (в любом регистре)\nДля формирования наглядного сравнения выберите не более 50 компаний').format(attr=str(sings[attribute_of_comparison])), reply_markup=cancel_button)
     msg_id = msg.message_id
     await Comparison.enter_the_tickers.set()
 
@@ -107,7 +109,7 @@ async def enter_the_comparison(message: types.Message, state: FSMContext):
         result = return_comparison_graphics(x, y, attribute=attribute, answer_user=answer_user, listx=xprise)
         await dp.bot.send_photo(chat_id=message.chat.id, photo=InputFile(result['save_dir']), reply_markup=start_button)
         if str(tickers).count(' ') > 10:
-            await message.answer(text=_('Для формирования наглядного графика выберите не более 10 компаний'))
+            await message.answer(text=_('Для формирования графика выберите не более 10 компаний'))
         else:
             await message.answer(text=_('Выберите период для формирования графика изменения цены акции'), reply_markup=choise_inline_date_for_stockprise)
     elif attribute == 'sector_of_company' or attribute == 'isin_of_company':
@@ -136,7 +138,6 @@ async def enter_the_comparison(message: types.Message, state: FSMContext):
             answer_user += ticker + ': ' + str(number_conversion(information_comparison)) + '\n'
         result = return_comparison_graphics(x, y, attribute=attribute, answer_user=answer_user, listx=x)
         await dp.bot.send_photo(chat_id=message.chat.id, photo=InputFile(result['save_dir']), reply_markup=start_button)
-
     await dp.bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)
     if len(errors_ticker) != 0:
         await message.answer(text=_('Ошибка, данных тикеров не существует: {errors_ticker}').format(errors_ticker=errors_ticker), reply_markup=start_button)
