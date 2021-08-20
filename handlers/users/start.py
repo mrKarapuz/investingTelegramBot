@@ -2,12 +2,12 @@
 
 from aiogram import types
 from aiogram.types.reply_keyboard import ReplyKeyboardRemove
-from keyboards.default import start_button, language_buttons
+from keyboards.default import start_button, language_buttons, language_buttons_continue
 from loader import dp, db
 from middlewares.internationlization import _
 import mysql.connector
 
-@dp.message_handler(text=['/start', _('Продолжить 🏳')])
+@dp.message_handler(text=['/start', _('\U0001F511')])
 async def bot_start(message: types.Message):
     try:
         language = db.select_user_language(message.from_user.id)
@@ -41,4 +41,4 @@ async def enter_language(message: types.Message):
                 user_language=str(user_language))
     except mysql.connector.errors.IntegrityError:
         db.update_user_language(id=message.from_user.id, language=user_language)
-    await message.answer(_('Вы выбрали русский язык, для продолжения нажмите сюда:\n/start', locale=user_language), reply_markup=ReplyKeyboardRemove())
+    await message.answer(_('Вы выбрали русский язык', locale=user_language), reply_markup=language_buttons_continue) 

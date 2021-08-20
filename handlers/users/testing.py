@@ -3,7 +3,6 @@ from aiogram.dispatcher.storage import FSMContext
 from loader import dp 
 from aiogram.dispatcher.filters import Command
 from states import Test
-import states
 
 
 @dp.message_handler(Command('test'))
@@ -19,7 +18,6 @@ async def answer_q1(message: types.Message, state: FSMContext):
     await state.update_data(answer1 = answer)
     await message.answer('Акции каких компаний вы предпочитаете?')
     await Test.Q2.set()
-
 
 @dp.message_handler(state = Test.Q2)
 async def answer_q2(message: types.Message, state: FSMContext):

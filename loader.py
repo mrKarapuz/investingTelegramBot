@@ -1,4 +1,4 @@
-from utils.db_api.sqlite import Database
+from utils.db_api.mysql import Database
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from data import config

@@ -45,11 +45,8 @@ language_buttons = ReplyKeyboardMarkup(
 language_buttons_continue = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text=_('Продолжить 🏳'))
+            KeyboardButton(text=_('\U0001F511'))
         ],
-        [
-            KeyboardButton(text=_('Изменить язык ✍️'))
-        ]
     ],
     resize_keyboard=True
 )

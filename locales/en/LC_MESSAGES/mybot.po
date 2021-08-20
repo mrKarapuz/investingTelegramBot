@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-08-16 13:22+0300\n"
+"POT-Creation-Date: 2021-08-20 14:53+0300\n"
 "PO-Revision-Date: 2021-08-15 21:12+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,219 +18,268 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: handlers/users/comparison.py:11
+#: handlers/users/comparison.py:18
 msgid "Сектор"
 msgstr "Sector"
 
-#: handlers/users/comparison.py:12
+#: handlers/users/comparison.py:19
 msgid "МИН ценных бумаг"
-msgstr "IIN securities"
+msgstr "ISIN"
 
-#: handlers/users/comparison.py:13
+#: handlers/users/comparison.py:20
 msgid "Капитализация"
 msgstr "Capitalization"
 
-#: handlers/users/comparison.py:14
+#: handlers/users/comparison.py:21
 msgid "Количество акций"
 msgstr "Number of shares"
 
-#: handlers/users/comparison.py:15
+#: handlers/users/comparison.py:22
 msgid "Цена акции"
 msgstr "Share price"
 
-#: handlers/users/comparison.py:16
+#: handlers/users/comparison.py:23 tiker/functions_tiker.py:112
+#: tiker/functions_tiker.py:158
 msgid "Общий доход"
 msgstr "Total income"
 
-#: handlers/users/comparison.py:17
+#: handlers/users/comparison.py:24 tiker/functions_tiker.py:113
+#: tiker/functions_tiker.py:159
 msgid "Чистая прибыль"
 msgstr "Net profit"
 
-#: handlers/users/comparison.py:18
+#: handlers/users/comparison.py:25 tiker/functions_tiker.py:212
+#: tiker/functions_tiker.py:275
 msgid "Активы"
 msgstr "Assets"
 
-#: handlers/users/comparison.py:19
+#: handlers/users/comparison.py:26
 msgid "Обязательства"
 msgstr "Commitments"
 
-#: handlers/users/comparison.py:20
-msgid "Дивиденды в долларах"
+#: handlers/users/comparison.py:27
+msgid "Акционерный капитал"
+msgstr "Share capital: "
+
+#: handlers/users/comparison.py:28
+msgid "Дивиденды в $ (квартал)"
 msgstr "Dividends in dollars"
 
-#: handlers/users/comparison.py:21
-msgid "Дивиденды в процентах"
-msgstr "Percentage dividends"
+#: handlers/users/comparison.py:29
+msgid "Дивиденды в % (квартал)"
+msgstr "Dividends in dollars"
 
-#: handlers/users/comparison.py:22
+#: handlers/users/comparison.py:30
 msgid "Прибыль на акцию"
 msgstr "EPS"
 
-#: handlers/users/comparison.py:23
+#: handlers/users/comparison.py:31
 msgid "Цена\\прибыль"
 msgstr "P\\E"
 
-#: handlers/users/comparison.py:29 handlers/users/comparison.py:34
-#: handlers/users/information_from_ticker.py:19
+#: handlers/users/comparison.py:45
+msgid "Сравнение компаний по признаку: "
+msgstr "Comparison of companies based on: "
+
+#: handlers/users/comparison.py:57 handlers/users/comparison.py:62
+#: handlers/users/information_from_ticker.py:20
 msgid "Отмена"
 msgstr "Cancel"
 
-#: handlers/users/comparison.py:32 handlers/users/information_from_ticker.py:17
-#: keyboards/default/choise_information_from_tiker_button.py:21
+#: handlers/users/comparison.py:60 handlers/users/information_from_ticker.py:18
+#: keyboards/default/choise_information_from_tiker_button.py:22
 #: keyboards/default/start_button.py:24
-#: keyboards/inline/choise_comparison.py:74
+#: keyboards/inline/choise_comparison.py:78
 msgid "Назад 👈"
 msgstr "Back 👈"
 
-#: handlers/users/comparison.py:37 keyboards/default/start_button.py:11
+#: handlers/users/comparison.py:65 keyboards/default/start_button.py:11
 msgid "Сравнить компании 🧐"
 msgstr "Compare companies 🧐"
 
-#: handlers/users/comparison.py:39
-msgid "По какому признаку сравнивать?"
-msgstr "Basis for comparing?"
+#: handlers/users/comparison.py:67
+msgid ""
+"Данные состоянием на утро сегодняшнего дня\n"
+"По какому признаку сравнивать?"
+msgstr ""
+"Data as of today morning \n"
+"What is the basis for comparing?"
 
-#: handlers/users/comparison.py:49
+#: handlers/users/comparison.py:77
 msgid ""
 "Выбранный атрибут: \"{attr}\" \n"
-"Введите тикеры компаний через пробел (в любом регистре)"
+"Введите тикеры компаний через пробел (в любом регистре)\n"
+"Для формирования наглядного сравнения выберите не более 50 (10 если "
+"сравниваете по цене акции) компаний"
 msgstr ""
-"Selected attribute: \" {attr}\" \n"
-"Enter company tickers separated by a space (in any case)"
+"Selected attribute: \"{attr}\" \n"
+"Enter company tickers separated by a space (in any case) \n"
+"To form a visual comparison, select no more than 50 (10 if compare by "
+"share price) of companies"
 
-#: handlers/users/comparison.py:60
-msgid "Сравнение компаний по признаку: \"{attr}\""
-msgstr "Comparison of companies based on: \"{attr}\""
+#: handlers/users/comparison.py:89
+msgid "Для формирования наглядного сравнения выберите не более 50 компаний"
+msgstr "To form a visual comparison, select no more than 50 companies"
 
-#: handlers/users/comparison.py:62
+#: handlers/users/comparison.py:93
 msgid ""
 "Сбор информации...\n"
-"Может продолжаться до 30 секунд"
+"Процесс может занять несколько минут"
 msgstr ""
-"Gathering information ... \n"
-"May last up to 30 seconds."
+"Gathering information ...\n"
+"The process may take several minutes."
 
-#: handlers/users/comparison.py:75
+#: handlers/users/comparison.py:110
+msgid "Для формирования наглядного графика выберите не более 10 компаний"
+msgstr "To form a visual graph, select no more than 10 companies"
+
+#: handlers/users/comparison.py:112
+msgid "Выберите период для формирования графика изменения цены акции"
+msgstr ""
+"Select the period for the formation of the schedule of changes in the "
+"stock price"
+
+#: handlers/users/comparison.py:142
 msgid "Ошибка, данных тикеров не существует: {errors_ticker}"
 msgstr "Error, no ticker data exists: {errors_ticker}"
 
+#: handlers/users/comparison.py:147
+#: handlers/users/information_from_ticker.py:27
+#: handlers/users/information_from_ticker.py:36
+#: handlers/users/information_from_ticker.py:45
+#: handlers/users/information_from_ticker.py:54
+#: handlers/users/information_from_ticker.py:125
+msgid "Формируем график..."
+msgstr "We form a schedule ..."
+
 #: handlers/users/help.py:12
-#, fuzzy
 msgid ""
 "/start - Начать диалог\n"
 "/help - Получить справку\n"
 "Информация о компании: Введите тикер и получите базовую информацию о "
 "компании, также, нажав нужную кнопку, можно узнать подробную информацию "
-"по нужному критерию\n"
+"по нужному критерию (выраженную в графиках)\n"
 "\n"
 "Сравнить компании: Выберите признак сравнения, введите тикеры нужных "
-"компаний и получите наглядное стравнение\n"
+"компаний и получите наглядное стравнение (график)\n"
 "\n"
 "ОБНОВЛЕНИЯ ПРОИСХОДЯТ КАЖДЫЕ 10 мин\n"
 "\n"
 "Ваши пожелания и предложения - https://t.me/mr_karapuz"
 msgstr ""
-"/start - Start dialog \n"
-"/help - Get help \n"
-"Company Information: Enter the ticker and get basic information "
-"aboutcompanies, also by clicking the desired button, you can find out "
-"detailed informationby the desired criterion \n"
+"/start - Start dialog\n"
+"/help - Get help\n"
+"Company Information: Enter the ticker and get basic information about "
+"companies, also by clicking the desired button, you can find out detailed"
+" information by the required criterion (expressed in graphs) \n"
 "\n"
 "Compare companies: Select a comparison criterion, enter the tickers of "
-"the desired onescompanies and get a visual comparison \n"
+"the desired ones companies and get a visual comparison (graph) \n"
 "\n"
-"UPDATES HAPPENED EVERY 10 MINUTES"
+"UPDATES HAPPENED EVERY 10 minutes \n"
+"\n"
 "Your wishes and suggestions - https://t.me/mr_karapuz"
 
-#: handlers/users/information_from_ticker.py:12
+#: handlers/users/information_from_ticker.py:13
 #: keyboards/default/start_button.py:8
 msgid "Информация о компании 🤓"
 msgstr "Company Information 🤓"
 
-#: handlers/users/information_from_ticker.py:14
+#: handlers/users/information_from_ticker.py:15
 msgid "Введите тикер: 🎫"
 msgstr "Enter the ticker: 🎫"
 
-#: handlers/users/information_from_ticker.py:22
+#: handlers/users/information_from_ticker.py:23
 #: keyboards/default/choise_information_from_tiker_button.py:8
 msgid "Прибыль(год) 🍬"
 msgstr "Profit (year) 🍬"
 
-#: handlers/users/information_from_ticker.py:29
+#: handlers/users/information_from_ticker.py:32
 #: keyboards/default/choise_information_from_tiker_button.py:9
 msgid "Прибыль(квартал) 🍭"
 msgstr "Profit (quarter) 🍭"
 
-#: handlers/users/information_from_ticker.py:35
+#: handlers/users/information_from_ticker.py:41
 #: keyboards/default/choise_information_from_tiker_button.py:12
 msgid "Баланс(год) 💰"
 msgstr "Balance (year) 💰"
 
-#: handlers/users/information_from_ticker.py:41
+#: handlers/users/information_from_ticker.py:50
 #: keyboards/default/choise_information_from_tiker_button.py:13
 msgid "Баланс(квартал) 💸"
 msgstr "Balance (quarter) 💸"
 
-#: handlers/users/information_from_ticker.py:47
+#: handlers/users/information_from_ticker.py:59
 #: keyboards/default/choise_information_from_tiker_button.py:16
 msgid "Дивиденды 💵"
 msgstr "Dividends 💵"
 
-#: handlers/users/information_from_ticker.py:53
+#: handlers/users/information_from_ticker.py:63
+#: handlers/users/information_from_ticker.py:79
+msgid "Пожалуйста подождите..."
+msgstr "Wait, please..."
+
+#: handlers/users/information_from_ticker.py:75
 #: keyboards/default/choise_information_from_tiker_button.py:17
 msgid "Сплиты ✂"
 msgstr "Splits ✂"
 
-#: handlers/users/information_from_ticker.py:59
+#: handlers/users/information_from_ticker.py:83
 #: keyboards/default/choise_information_from_tiker_button.py:18
 msgid "Описание ✏"
 msgstr "Description ✏"
 
-#: handlers/users/information_from_ticker.py:73
+#: handlers/users/information_from_ticker.py:97
 msgid "Лого 🖼"
 msgstr "Logo 🖼"
 
-#: handlers/users/information_from_ticker.py:81
+#: handlers/users/information_from_ticker.py:103
+#: keyboards/default/choise_information_from_tiker_button.py:21
+msgid "График цены акции 📈"
+msgstr "Share price 📈"
+
+#: handlers/users/information_from_ticker.py:105
+msgid "Выберите период"
+msgstr "Select period"
+
+#: handlers/users/information_from_ticker.py:109
 msgid "Пожалуйста, подождите..."
 msgstr "Wait, please..."
 
-#: handlers/users/information_from_ticker.py:90
+#: handlers/users/information_from_ticker.py:118
 msgid ""
 "Ошибка, проверьте правильность тикера и попробуйте еще раз \n"
 "Тикер — краткое название в биржевой информации котируемых инструментов: \n"
 "Apple: AAPL\n"
 "General Electric: GE"
 msgstr ""
-"Error, check the ticker is correct and try again \\nTicker is a short "
-"name in the exchange information of quoted instruments: \\nApple: AAPL "
-"\\nGeneral Electric: GE"
+"Error, check the ticker is correct and try again\n"
+"Ticker is a short name in the exchange information of quoted instruments:"
+" \n"
+"Apple: AAPL \n"
+"General Electric: GE"
 
 #: handlers/users/start.py:10 keyboards/default/start_button.py:48
-msgid "Продолжить 🏳"
-msgstr "Continue 🏳"
+msgid "🔑"
+msgstr ""
 
-#: handlers/users/start.py:16
+#: handlers/users/start.py:20
 msgid ""
 "Привет, {name}! Я помогу тебе инвестировать {smile} {paragraf} /help - "
 "Получить справку"
 msgstr "Hello {name}! I will help you invest {smile} {paragraf} /help - get help"
 
-#: handlers/users/start.py:18 handlers/users/start.py:22
+#: handlers/users/start.py:22 handlers/users/start.py:26
 msgid "Выберите язык"
 msgstr "Choose language"
 
-#: handlers/users/start.py:20 keyboards/default/start_button.py:14
-#: keyboards/default/start_button.py:51
+#: handlers/users/start.py:24 keyboards/default/start_button.py:14
 msgid "Изменить язык ✍️"
 msgstr "Change language ✍️"
 
-#: handlers/users/start.py:41
-msgid ""
-"Вы выбрали русский язык, для продолжения нажмите сюда:\n"
-"/start"
-msgstr ""
-"You have selected English, to continue click here:\n"
-"/start"
+#: handlers/users/start.py:44
+msgid "Вы выбрали русский язык"
+msgstr "You have chosen english language"
 
 #: keyboards/inline/choise_comparison.py:8
 msgid "Сектор 🌐"
@@ -238,7 +287,7 @@ msgstr "Sector 🌐"
 
 #: keyboards/inline/choise_comparison.py:12
 msgid "МИН 🔢"
-msgstr "IIN 🔢"
+msgstr "ISIN 🔢"
 
 #: keyboards/inline/choise_comparison.py:18
 msgid "Капитализация 💰"
@@ -268,109 +317,203 @@ msgstr "Assets 🧾"
 msgid "Обязательства 🧾"
 msgstr "Commitments 🧾"
 
-#: keyboards/inline/choise_comparison.py:54
+#: keyboards/inline/choise_comparison.py:52
+msgid "Капитал 💼"
+msgstr "Capital: 💼"
+
+#: keyboards/inline/choise_comparison.py:58
 msgid "Дивиденды ($)"
 msgstr "Dividends ($)"
 
-#: keyboards/inline/choise_comparison.py:58
+#: keyboards/inline/choise_comparison.py:62
 msgid "Дивиденды (%)"
 msgstr "Dividends (%)"
 
-#: keyboards/inline/choise_comparison.py:64
+#: keyboards/inline/choise_comparison.py:68
 msgid "Прибыль на акцию 📝"
 msgstr "EPS 📝"
 
-#: keyboards/inline/choise_comparison.py:68
+#: keyboards/inline/choise_comparison.py:72
 msgid "Цена\\прибыль 🔎"
 msgstr "P\\E 🔎"
 
-#: tiker/functions_tiker.py:58 tiker/functions_tiker.py:74
-#: tiker/functions_tiker.py:214
+#: keyboards/inline/choise_comparison.py:88 tiker/functions_tiker.py:13
+msgid "1 месяц"
+msgstr "1 month"
+
+#: keyboards/inline/choise_comparison.py:92 tiker/functions_tiker.py:14
+msgid "3 месяца"
+msgstr "3 months"
+
+#: keyboards/inline/choise_comparison.py:102 tiker/functions_tiker.py:16
+msgid "1 год"
+msgstr "1 year"
+
+#: keyboards/inline/choise_comparison.py:106 tiker/functions_tiker.py:17
+msgid "2 года"
+msgstr "2 years"
+
+#: keyboards/inline/choise_comparison.py:110 tiker/functions_tiker.py:18
+msgid "5 лет"
+msgstr "5 years"
+
+#: keyboards/inline/choise_comparison.py:114 tiker/functions_tiker.py:19
+msgid "10 лет"
+msgstr "10 years"
+
+#: keyboards/inline/choise_comparison.py:120
+msgid "Максимум"
+msgstr "Maximum"
+
+#: tiker/functions_tiker.py:15
+msgid "6 месяцев"
+msgstr "6 months"
+
+#: tiker/functions_tiker.py:20
+msgid "Максимальный"
+msgstr "Maximum"
+
+#: tiker/functions_tiker.py:94
+msgid ""
+"Расчет общего дохода и чистой прибыли\n"
+"компании по годам"
+msgstr ""
+"Calculating total income and net profit\n"
+"companies by year"
+
+#: tiker/functions_tiker.py:106 tiker/functions_tiker.py:152
+#: tiker/functions_tiker.py:396
 msgid "Общий доход: "
 msgstr "Total income: "
 
-#: tiker/functions_tiker.py:59 tiker/functions_tiker.py:75
-#: tiker/functions_tiker.py:215
+#: tiker/functions_tiker.py:107 tiker/functions_tiker.py:153
+#: tiker/functions_tiker.py:397
 msgid "Чистая прибыль: "
 msgstr "Net profit: "
 
-#: tiker/functions_tiker.py:93 tiker/functions_tiker.py:121
+#: tiker/functions_tiker.py:135
+msgid "Расчет общего дохода и чистой прибыли компании {short_name} по кварталам"
+msgstr ""
+"Calculation of the total income and net profit of the company "
+"{short_name} by quarters"
+
+#: tiker/functions_tiker.py:181
+msgid ""
+"Расчет общих активов, обязательств и акционерного капитала\n"
+"компании {short_name} по годам"
+msgstr ""
+"Calculation of total assets, liabilities and share capital\n"
+"company {short_name} by year"
+
+#: tiker/functions_tiker.py:190 tiker/functions_tiker.py:246
 msgid "Aктивы: "
 msgstr "Assets: "
 
-#: tiker/functions_tiker.py:94 tiker/functions_tiker.py:122
+#: tiker/functions_tiker.py:191 tiker/functions_tiker.py:247
 msgid "Пассивы: "
 msgstr "Liabilities: "
 
-#: tiker/functions_tiker.py:95 tiker/functions_tiker.py:123
+#: tiker/functions_tiker.py:192 tiker/functions_tiker.py:248
 msgid "Капитал: "
 msgstr "Capital: "
 
-#: tiker/functions_tiker.py:151
+#: tiker/functions_tiker.py:213 tiker/functions_tiker.py:276
+msgid "Пассивы"
+msgstr "Liabilities: "
+
+#: tiker/functions_tiker.py:214 tiker/functions_tiker.py:277
+msgid "Капитал"
+msgstr "Capital: "
+
+#: tiker/functions_tiker.py:236
+msgid ""
+"Расчет общих активов, обязательств и акционерного капитала\n"
+"компании {short_name} по кварталам"
+msgstr ""
+"Calculation of total assets, liabilities and share capital \n"
+"company {short_name} by quarter"
+
+#: tiker/functions_tiker.py:303
+msgid "История дивидендов компании {short_name} по кварталам"
+msgstr "Company dividend history {short_name} by quarter"
+
+#: tiker/functions_tiker.py:314
 msgid "Компания \"{short_name}\" не выплачивала дивидендов"
 msgstr "The company \"{short_name}\" did not pay dividends"
 
-#: tiker/functions_tiker.py:166
+#: tiker/functions_tiker.py:329
 msgid "Компания \"{short_name}\" не проводила сплитов"
 msgstr "The \"{short_name} \"company did not perform splits"
 
-#: tiker/functions_tiker.py:206
+#: tiker/functions_tiker.py:334
+msgid "Можно выбрать не более 10 компаний"
+msgstr "You can choose no more than 10 companies"
+
+#: tiker/functions_tiker.py:338
+msgid "График изменения цены акции за период: {period}"
+msgstr "Share price change chart for the period: {period}"
+
+#: tiker/functions_tiker.py:342
+msgid "График изменения цен акций за период: {period}"
+msgstr "Share price change chart for the period: {period}"
+
+#: tiker/functions_tiker.py:388
 msgid "Полное название: "
 msgstr "Full title: "
 
-#: tiker/functions_tiker.py:207
+#: tiker/functions_tiker.py:389
 msgid "Тикер: "
 msgstr "Ticker: "
 
-#: tiker/functions_tiker.py:208
+#: tiker/functions_tiker.py:390
 msgid "Сектор: "
 msgstr "Sector: "
 
-#: tiker/functions_tiker.py:209
+#: tiker/functions_tiker.py:391
 msgid "МИН ценных бумаг: "
-msgstr "IIN securities: "
+msgstr "ISIN: "
 
-#: tiker/functions_tiker.py:210
+#: tiker/functions_tiker.py:392
 msgid "Вебсайт: "
 msgstr "Web site: "
 
-#: tiker/functions_tiker.py:211
+#: tiker/functions_tiker.py:393
 msgid "Капитализация: "
 msgstr "Capitalization: "
 
-#: tiker/functions_tiker.py:212
+#: tiker/functions_tiker.py:394
 msgid "Количество акций: "
 msgstr "Number of shares: "
 
-#: tiker/functions_tiker.py:213
+#: tiker/functions_tiker.py:395
 msgid "Цена акции: "
 msgstr "Stock price: "
 
-#: tiker/functions_tiker.py:216
+#: tiker/functions_tiker.py:398
 msgid "Активы: "
 msgstr "Assets: "
 
-#: tiker/functions_tiker.py:217
+#: tiker/functions_tiker.py:399
 msgid "Обязательства: "
 msgstr "Obligations: "
 
-#: tiker/functions_tiker.py:218
+#: tiker/functions_tiker.py:400
 msgid "Акционерный капитал: "
 msgstr "Share capital: "
 
-#: tiker/functions_tiker.py:219
+#: tiker/functions_tiker.py:401
 msgid "Дивиденды в долларах: "
 msgstr "Dividends in dollars: "
 
-#: tiker/functions_tiker.py:220
+#: tiker/functions_tiker.py:402
 msgid "Дивиденды в процентах: "
 msgstr "Percentage dividends: "
 
-#: tiker/functions_tiker.py:221
+#: tiker/functions_tiker.py:403
 msgid "Прибыль на акцию: "
 msgstr "EPS: "
 
-#: tiker/functions_tiker.py:222
+#: tiker/functions_tiker.py:404
 msgid "Цена\\прибыль: "
 msgstr "P\\E: "
 
@@ -382,6 +525,16 @@ msgstr "Start a dialogue"
 msgid "Помощь"
 msgstr "Help"
 
-#~ msgid "Вы выбрали русский язык"
-#~ msgstr "You have chosen English"
+#~ msgid "Продолжить 🏳"
+#~ msgstr "Continue 🏳"
+
+#~ msgid ""
+#~ "Вы выбрали русский язык, для продолжения нажмите сюда:\n"
+#~ "/start"
+#~ msgstr ""
+#~ "You have selected English, to continue click here:\n"
+#~ "/start"
+
+#~ msgid "🔀"
+#~ msgstr ""
 

@@ -1,1 +1,1 @@
-from .choise_comparison import choise_inline_comparison
+from .choise_comparison import choise_inline_comparison, choise_inline_date_for_stockprise

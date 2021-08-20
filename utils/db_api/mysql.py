@@ -1,13 +1,14 @@
+from data import config
 import mysql.connector
 
 class Database:
     @property
     def connection(self):
         return mysql.connector.connect(host="colt.cityhost.com.ua",  
-                        port=3306,
-                        user="chd11fa3e1_konov",        
-                        password="",
-                        db="chd11fa3e1_konov",)
+                        port=config.MYSQL_port,
+                        user=config.MYSQL_login_database,         
+                        password=config.MYSQL_password,
+                        db=config.MYSQL_login_database,)
 
     def execute(self, sql, parameters = tuple(), fetchone=False, fetchall=False, commit=False): 
         connection = self.connection

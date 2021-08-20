@@ -47,6 +47,10 @@ inline_keyboard=[
         InlineKeyboardButton(
             text=_('Обязательства \U0001F9FE'),
             callback_data='total_liab_now'
+        ),
+        InlineKeyboardButton(
+            text=_('Капитал \U0001F4BC'),
+            callback_data='total_stockholder_equity_now'
         )
     ],
     [
@@ -75,7 +79,46 @@ inline_keyboard=[
             callback_data='cancel'
         )
     ],
-    
-]
-)
+])
 
+choise_inline_date_for_stockprise = InlineKeyboardMarkup(row_width=1,
+inline_keyboard=[
+    [
+        InlineKeyboardButton(
+            text=_('1 месяц'),
+            callback_data='1mo'
+        ),
+        InlineKeyboardButton(
+            text=_('3 месяца'),
+            callback_data='3mo'
+        ),
+        InlineKeyboardButton(
+            text='6 месяцев',
+            callback_data='6mo'
+        )
+    ],
+    [
+        InlineKeyboardButton(
+            text=_('1 год'),
+            callback_data='1y'
+        ),
+        InlineKeyboardButton(
+            text=_('2 года'),
+            callback_data='2y'
+        ),
+        InlineKeyboardButton(
+            text=_('5 лет'),
+            callback_data='5y'
+        ),
+        InlineKeyboardButton(
+            text=_('10 лет'),
+            callback_data='10y'
+        )
+    ],
+    [
+        InlineKeyboardButton(
+            text=_('Максимум'),
+            callback_data='max'
+        )
+    ],
+])

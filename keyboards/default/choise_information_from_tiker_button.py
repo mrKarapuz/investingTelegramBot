@@ -17,7 +17,8 @@ choise = ReplyKeyboardMarkup(
             KeyboardButton(text=_('Сплиты ✂')),
             KeyboardButton(text=_('Описание \U0000270F')),
         ],
-        [
+        [   
+            KeyboardButton(text=_('График цены акции \U0001F4C8')),
             KeyboardButton(text=_('Назад \U0001F448')),
         ]
     ],

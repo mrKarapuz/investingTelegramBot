@@ -2,7 +2,7 @@
 from pathlib import Path
 from aiogram import types
 from typing import Tuple, Any
-from loader import db, dp
+from loader import db
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 
 I18N_DOMAIN = 'mybot'
