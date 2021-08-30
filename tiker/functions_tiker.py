@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import FuncFormatter, FixedLocator, MultipleLocator, FormatStrFormatter, FixedFormatter, MaxNLocator
 from matplotlib.gridspec import GridSpec
-from pathlib import Path
+
 
 dict_periods={
     '1mo' : _('1 месяц'),
@@ -20,7 +20,7 @@ dict_periods={
     'max' : _('Максимальный')
 }
 
-time_lru = 600
+time_lru = 82800
 
 def timed_lru_cache(seconds: int, maxsize: int = 128):
     def wrapper_cache(func):
@@ -351,56 +351,92 @@ def show_comparison_history_prise(symbol, period):
 
 @timed_lru_cache(time_lru)
 class GeneraInformationOfCompany:
-	def __init__(self, symbol):
-		self.symbol = symbol
-		symbol_company = yf.Ticker(symbol)
-		object_of_company_info = symbol_company.info
-		self.long_name_of_company = object_of_company_info['longName'] #Полное название компании
-		self.description_of_company = object_of_company_info['longBusinessSummary'] #Описание компании
-		self.ticker_of_company = object_of_company_info['symbol'] #Тикер компании
-		self.sector_of_company = object_of_company_info['sector'] #Сектор компании
-		self.isin_of_company = symbol_company.isin #Международный идентификационный номер ценных бумаг
-		self.website_of_company = object_of_company_info['website'] #Вебсайт компании
-		self.logo_url_of_company = object_of_company_info['logo_url'] #Ссылка на лого компании
-		self.market_cap_of_company = object_of_company_info['marketCap'] #Рыночная капитализация компании
-		self.count_shares_ofustanding_of_company = object_of_company_info['sharesOutstanding'] #Количество обращаемых акций компании
-		self.current_prise_share_now_of_company = round((object_of_company_info['currentPrice']), 2) #Текущая цена акции компании с двумя числами после запятой
-		self.profit_of_company_now = object_of_company_info['totalRevenue'] #Текущий общий доход компании
-		self.net_profit_of_company_now = object_of_company_info['netIncomeToCommon'] #Текущая чистая прибыль компании
-		self.total_assets_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Assets']) #Итого активы компании
-		self.total_liab_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Liab']) #Итого обязательства компании
-		self.total_stockholder_equity_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Stockholder Equity']) #Итого акционерный капитал компании
-		self.dividends_of_company_now_per_year_in_dollar = object_of_company_info['dividendRate'] #Дивиденды в долларах данной компании за год 
-		self.dividends_of_company_now_per_year_in_dollar = 'N/A' if self.dividends_of_company_now_per_year_in_dollar == None else self.dividends_of_company_now_per_year_in_dollar
-		self.dividends_of_company_now_per_year_in_persent = round(self.dividends_of_company_now_per_year_in_dollar*100.0/float(self.current_prise_share_now_of_company), 2) if self.dividends_of_company_now_per_year_in_dollar != 'N/A' else 'N/A'#Дивиденды в процентах данной компании за год 
-		try:
-			self.eps_of_company = object_of_company_info['trailingEps'] #Текущая прибыль на акцию компании с одним числом после запятой
-			self.eps_of_company = round(self.eps_of_company, 1) if self.eps_of_company != None else 'N/A'
-		except KeyError or TypeError:
-			self.eps_of_company = 'N/A'
-		try:
-			self.pe_ratio_of_company = object_of_company_info['trailingPE'] #Текущее соотношение "Цена\прибыль" с одним числом после запятой
-			self.pe_ratio_of_company = round(self.pe_ratio_of_company, 1) if self.pe_ratio_of_company != None else 'N/A'
-		except KeyError or TypeError:
-			self.pe_ratio_of_company = 'N/A'
+    def __init__(self, symbol):
+        self.symbol = symbol
+        symbol_company = yf.Ticker(symbol)
+        object_of_company_info = symbol_company.info
+        try:
+            self.long_name_of_company = object_of_company_info['longName'] #Полное название компании
+        except:
+            self.long_name_of_company = 'N/A'
+        try:
+            self.description_of_company = object_of_company_info['longBusinessSummary'] #Описание компании
+        except KeyError or TypeError:
+            self.description_of_company = 'N/A'
+        self.ticker_of_company = object_of_company_info['symbol'] #Тикер компании
+        try:
+            self.sector_of_company = object_of_company_info['sector'] #Сектор компании
+        except KeyError or TypeError:
+            self.sector_of_company = 'N/A'
+        self.isin_of_company = symbol_company.isin #Международный идентификационный номер ценных бумаг
+        try:
+            self.website_of_company = object_of_company_info['website'] #Вебсайт компании
+        except KeyError or TypeError:
+            self.website_of_company = 'N/A'
+        try:
+            self.logo_url_of_company = object_of_company_info['logo_url'] #Ссылка на лого компании
+        except KeyError or TypeError:
+            self.logo_url_of_company = 'N/A'
+        try:
+            self.market_cap_of_company = object_of_company_info['marketCap'] #Рыночная капитализация компании
+        except KeyError or TypeError:
+            self.market_cap_of_company = 0
+        try:
+            self.count_shares_ofustanding_of_company = object_of_company_info['sharesOutstanding'] #Количество обращаемых акций компании
+        except KeyError or TypeError:
+            self.count_shares_ofustanding_of_company = 0
+        self.current_prise_share_now_of_company = round((object_of_company_info['currentPrice']), 2) #Текущая цена акции компании с двумя числами после запятой
+        try:
+            self.profit_of_company_now = object_of_company_info['totalRevenue'] #Текущий общий доход компании
+        except KeyError or TypeError:
+            self.profit_of_company_now = 0
+        try:
+            self.net_profit_of_company_now = object_of_company_info['netIncomeToCommon'] #Текущая чистая прибыль компании
+        except KeyError or TypeError:
+            self.net_profit_of_company_now = 0
+        try:
+            self.total_assets_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Assets']) #Итого активы компании
+        except KeyError or TypeError:
+            self.total_assets_now = 0
+        try:
+            self.total_liab_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Liab']) #Итого обязательства компании
+        except KeyError or TypeError:
+            self.total_liab_now = 0
+        try:
+            self.total_stockholder_equity_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Stockholder Equity']) #Итого акционерный капитал компании
+        except KeyError or TypeError:
+            self.total_stockholder_equity_now = 0
+        self.dividends_of_company_now_per_year_in_dollar = object_of_company_info['dividendRate'] #Дивиденды в долларах данной компании за год 
+        self.dividends_of_company_now_per_year_in_dollar = 'N/A' if self.dividends_of_company_now_per_year_in_dollar == None else self.dividends_of_company_now_per_year_in_dollar
+        self.dividends_of_company_now_per_year_in_persent = round(self.dividends_of_company_now_per_year_in_dollar*100.0/float(self.current_prise_share_now_of_company), 2) if self.dividends_of_company_now_per_year_in_dollar != 'N/A' else 'N/A'#Дивиденды в процентах данной компании за год 
+        try:
+            self.eps_of_company = object_of_company_info['trailingEps'] #Текущая прибыль на акцию компании с одним числом после запятой
+            self.eps_of_company = round(self.eps_of_company, 1) if self.eps_of_company != None else 'N/A'
+        except KeyError or TypeError:
+            self.eps_of_company = 'N/A'
+        try:
+            self.pe_ratio_of_company = object_of_company_info['trailingPE'] #Текущее соотношение "Цена\прибыль" с одним числом после запятой
+            self.pe_ratio_of_company = round(self.pe_ratio_of_company, 1) if self.pe_ratio_of_company != None else 'N/A'
+        except KeyError or TypeError:
+            self.pe_ratio_of_company = 'N/A'
 
-	def return_all_general_information(self):
-		name  = _('Полное название: ') + self.long_name_of_company + '\n'
-		ticker = _('Тикер: ') + self.ticker_of_company + '\n'
-		sector = _('Сектор: ') +  str(self.sector_of_company) + '\n'
-		min_paper = _('МИН ценных бумаг: ') + str(self.isin_of_company) + '\n'
-		website = _('Вебсайт: ') + self.website_of_company + '\n'
-		capitalization = _('Капитализация: ') + str(number_conversion(self.market_cap_of_company)) + '$' + '\n'
-		count_shares = _('Количество акций: ') + str(number_conversion(self.count_shares_ofustanding_of_company)) + '\n'
-		prise = _('Цена акции: ') + str(number_conversion(self.current_prise_share_now_of_company)) + '$' + '\n'
-		profit = _('Общий доход: ') + str(number_conversion(self.profit_of_company_now)) + '$' + '\n'
-		net_profit = _('Чистая прибыль: ') + str(number_conversion(self.net_profit_of_company_now)) + '$' + '\n'
-		assets = _('Активы: ') + str(number_conversion(self.total_assets_now)) + '$' + '\n'
-		liab = _('Обязательства: ') + str(number_conversion(self.total_liab_now)) + '$' + '\n'
-		stockholder = _('Акционерный капитал: ') + str(number_conversion(self.total_stockholder_equity_now)) + '$' + '\n'
-		dividends_per_dollar = _('Дивиденды в долларах: ') + str(self.dividends_of_company_now_per_year_in_dollar) + '\n'
-		dividends_per_percent = _('Дивиденды в процентах: ') + str(self.dividends_of_company_now_per_year_in_persent) + '\n'
-		eps = _('Прибыль на акцию: ') + str(self.eps_of_company) + '\n'
-		pe = _('Цена\прибыль: ') + str(self.pe_ratio_of_company)
-		value = name + ticker + sector + min_paper + website + capitalization + count_shares + prise + profit +  net_profit + assets + liab + stockholder + dividends_per_dollar + dividends_per_percent + eps + pe
-		return value
+    def return_all_general_information(self):
+        name  = _('Полное название: ') + self.long_name_of_company + '\n'
+        ticker = _('Тикер: ') + self.ticker_of_company + '\n'
+        sector = _('Сектор: ') +  str(self.sector_of_company) + '\n'
+        min_paper = _('МИН ценных бумаг: ') + str(self.isin_of_company) + '\n'
+        website = _('Вебсайт: ') + self.website_of_company + '\n'
+        capitalization = _('Капитализация: ') + str(number_conversion(self.market_cap_of_company)) + '$' + '\n'
+        count_shares = _('Количество акций: ') + str(number_conversion(self.count_shares_ofustanding_of_company)) + '\n'
+        prise = _('Цена акции: ') + str(number_conversion(self.current_prise_share_now_of_company)) + '$' + '\n'
+        profit = _('Общий доход: ') + str(number_conversion(self.profit_of_company_now)) + '$' + '\n'
+        net_profit = _('Чистая прибыль: ') + str(number_conversion(self.net_profit_of_company_now)) + '$' + '\n'
+        assets = _('Активы: ') + str(number_conversion(self.total_assets_now)) + '$' + '\n'
+        liab = _('Обязательства: ') + str(number_conversion(self.total_liab_now)) + '$' + '\n'
+        stockholder = _('Акционерный капитал: ') + str(number_conversion(self.total_stockholder_equity_now)) + '$' + '\n'
+        dividends_per_dollar = _('Дивиденды в долларах: ') + str(self.dividends_of_company_now_per_year_in_dollar) + '\n'
+        dividends_per_percent = _('Дивиденды в процентах: ') + str(self.dividends_of_company_now_per_year_in_persent) + '\n'
+        eps = _('Прибыль на акцию: ') + str(self.eps_of_company) + '\n'
+        pe = _('Цена\прибыль: ') + str(self.pe_ratio_of_company)
+        value = name + ticker + sector + min_paper + website + capitalization + count_shares + prise + profit +  net_profit + assets + liab + stockholder + dividends_per_dollar + dividends_per_percent + eps + pe
+        return value

@@ -10,7 +10,7 @@ MYSQL_login_database = str(os.getenv('MYSQL_LOGIN_DATABASE'))
 MYSQL_port = str(os.getenv('MYSQL_PORT'))
 
 admins = [
-    
+    326545200,
 ]
 
 ip = os.getenv("ip")

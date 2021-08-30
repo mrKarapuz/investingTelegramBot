@@ -11,6 +11,9 @@ start_button = ReplyKeyboardMarkup(
              KeyboardButton(text=_('Сравнить компании 🧐'))
          ],
          [
+             KeyboardButton(text=_('Подобрать компании 🤑'))
+         ],
+         [
              KeyboardButton(text=_('Изменить язык ✍️'))
          ]
     ],
