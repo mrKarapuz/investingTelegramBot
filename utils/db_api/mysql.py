@@ -39,11 +39,17 @@ class Database:
         sql = f"UPDATE `investing_users` SET `user_language`='{language}' WHERE id = {id}"
         return self.execute(sql=sql, fetchone=True)
 
-    def add_tickers(self, GeneraInformationOfCompany):
+    def add_tickers(self, GeneraInformationOfCompany, nasdaq):
         dow = yfs.tickers_dow()
         sp = yfs.tickers_sp500()
+        nasdaq_list = yfs.tickers_nasdaq()
         sp.extend(dow)
-        list_of_company = sorted(list(set(sp)))
+        if nasdaq==True:
+            list_of_company = nasdaq_list   
+        else:
+            list_of_company = sorted(list(set(sp)))
+        len_list_of_company = len(list_of_company)
+        # list_of_company=['ACVA']
         for elem in list_of_company:
             company = GeneraInformationOfCompany(elem)
             name = company.long_name_of_company if company.long_name_of_company != None else 'N/A'
@@ -54,19 +60,19 @@ class Database:
                 index_company+='DOW '
             if elem.upper() in sp:
                 index_company+='SP500 '
-            sector = company.sector_of_company
-            capitalization = company.market_cap_of_company if company.market_cap_of_company != None else 'N/A'
-            count_shares = company.count_shares_ofustanding_of_company if company.count_shares_ofustanding_of_company != None else 'N/A'
-            prise = company.current_prise_share_now_of_company
-            profit = company.profit_of_company_now if company.profit_of_company_now != None else 'N/A'
-            net_profit = company.net_profit_of_company_now
-            assets = company.total_assets_now
-            liab = company.total_liab_now
-            stockholder = company.total_stockholder_equity_now
-            dividends_per_dollar = company.dividends_of_company_now_per_year_in_dollar
-            dividends_per_percent = company.dividends_of_company_now_per_year_in_persent
-            eps = company.eps_of_company
-            pe = company.pe_ratio_of_company
+            sector = company.sector_of_company if company.sector_of_company != 'N/A' else None
+            capitalization = company.market_cap_of_company if company.market_cap_of_company != None else None
+            count_shares = company.count_shares_ofustanding_of_company if company.count_shares_ofustanding_of_company != None else None
+            prise = company.current_prise_share_now_of_company if company.current_prise_share_now_of_company != 'N/A' else None
+            profit = company.profit_of_company_now if company.profit_of_company_now != None else None
+            net_profit = company.net_profit_of_company_now if company.net_profit_of_company_now != 'N/A' else None
+            assets = company.total_assets_now if company.total_assets_now != 'N/A' else None
+            liab = company.total_liab_now if company.total_liab_now != 'N/A' else None
+            stockholder = company.total_stockholder_equity_now if company.total_stockholder_equity_now != 'N/A' else None
+            dividends_per_dollar = company.dividends_of_company_now_per_year_in_dollar if company.dividends_of_company_now_per_year_in_dollar != 'N/A' else None
+            dividends_per_percent = company.dividends_of_company_now_per_year_in_persent if company.dividends_of_company_now_per_year_in_persent != 'N/A' else None
+            eps = company.eps_of_company if company.eps_of_company != 'N/A' else None
+            pe = company.pe_ratio_of_company if company.pe_ratio_of_company != 'N/A' else None
             sql = "INSERT INTO `companies` (`name`, `date`, `ticker`, `index_company`, `sector`, `capitalizacion`, `count_shares`, `prise`, `profit`, `net_profit`, `assets`, `liab`, `stockholder`, `dividends_per_dollar`, `dividends_per_percent`, `eps`, `pe`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             param = (name, date, ticker, index_company, sector, capitalization, count_shares, prise, profit, net_profit, assets, liab, stockholder, dividends_per_dollar, dividends_per_percent, eps, pe)
             try:
@@ -80,6 +86,8 @@ class Database:
                 except:
                     print(f'Ошибка, в базу данных не было занесено: {elem}')
                     continue
+            
+            # list_of_company.index(elem) / len_list_of_company * 100
         return 'База данных обновлена'
 
     def select_all_users(self):
@@ -94,9 +102,14 @@ class Database:
         return self.execute(sql=sql, fetchall=True)
 
     def select_tickers(self, attributes, add_sql=''):
-        sql_select = 'ticker, sector, '
+        sql_select = 'ticker, '
         for attr in attributes:
             sql_select += attr + ', '
         sql = f"SELECT {sql_select[:-2]}  FROM `companies` WHERE" + add_sql
         return self.execute(sql=sql, parameters=(), fetchall=True)
 
+    def download_xlsx(self, attributes, add_sql=''):
+        sql = "SELECT `name`, `ticker`, `index_company`, `sector`, `capitalizacion`, `count_shares`, `prise`, `profit`, `net_profit`, `assets`, `liab`, `stockholder`, `dividends_per_dollar`, `dividends_per_percent`, `eps`, `pe` FROM `companies` WHERE ticker="
+        for elem in attributes:
+            sql += f"'{elem}' OR ticker="
+        return self.execute(sql=sql[:-11], parameters=(), fetchall=True)

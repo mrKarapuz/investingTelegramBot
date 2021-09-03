@@ -4,3 +4,4 @@ class SelectCompanies(StatesGroup):
     enter_the_sign = State()
     chose_the_sign = State()
     enter_numbers = State()
+    download_xlsx = State()

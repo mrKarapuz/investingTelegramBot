@@ -143,7 +143,7 @@ async def enter_the_comparison(message: types.Message, state: FSMContext):
         await message.answer(text=_('Ошибка, данных тикеров не существует: {errors_ticker}').format(errors_ticker=errors_ticker), reply_markup=start_button)
     await state.finish()
         
-@dp.callback_query_handler()
+@dp.callback_query_handler(text=['1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'max'])
 async def return_revenue_information(call: types.CallbackQuery):
     await call.answer(text=_('Формируем график...'))
     photopath = InputFile(show_comparison_history_prise(symbol=' '.join(xprise), period=call.data))

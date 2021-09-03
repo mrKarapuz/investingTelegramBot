@@ -1,3 +1,4 @@
+
 import yfinance as yf
 from math import fabs
 from functools import lru_cache, wraps
@@ -46,7 +47,7 @@ def number_conversion(number):
     except TypeError:
         return '0'
     if 999 < number < 1000000:
-        number = str(float(str(number)[:-1]) / 100) + 'TH'
+        number = str(float(str(number)[:-1]) / 100) + 'K'
     elif 999999 < number < 1000000000:
         number = str(float(str(number)[:-4]) / 100) + 'M'
     elif 999999999 < number < 1000000000000:
@@ -66,7 +67,7 @@ def formatOY(number, pos):
     except TypeError:
         return 0
     if 9999 < number < 1000000:
-        number = str(float(str(number)[:-3]) / 100) + 'TH'
+        number = str(float(str(number)[:-3]) / 100) + 'K'
         return number if is_module == False else '-' + str(float(number[:-1]) * 100.0) + 'TH'
     elif 999999 < number < 1000000000:
         number = str(float(str(number)[:-6]) / 100) + 'M'
@@ -380,33 +381,39 @@ class GeneraInformationOfCompany:
         try:
             self.market_cap_of_company = object_of_company_info['marketCap'] #Рыночная капитализация компании
         except KeyError or TypeError:
-            self.market_cap_of_company = 0
+            self.market_cap_of_company = 'N/A'
         try:
             self.count_shares_ofustanding_of_company = object_of_company_info['sharesOutstanding'] #Количество обращаемых акций компании
         except KeyError or TypeError:
-            self.count_shares_ofustanding_of_company = 0
-        self.current_prise_share_now_of_company = round((object_of_company_info['currentPrice']), 2) #Текущая цена акции компании с двумя числами после запятой
+            self.count_shares_ofustanding_of_company = 'N/A'
+        try:
+            self.current_prise_share_now_of_company = round((object_of_company_info['currentPrice']), 2) #Текущая цена акции компании с двумя числами после запятой
+        except KeyError or TypeError:
+            self.current_prise_share_now_of_company = 'N/A'
         try:
             self.profit_of_company_now = object_of_company_info['totalRevenue'] #Текущий общий доход компании
         except KeyError or TypeError:
-            self.profit_of_company_now = 0
+            self.profit_of_company_now = 'N/A'
         try:
             self.net_profit_of_company_now = object_of_company_info['netIncomeToCommon'] #Текущая чистая прибыль компании
         except KeyError or TypeError:
-            self.net_profit_of_company_now = 0
+            self.net_profit_of_company_now = 'N/A'
         try:
             self.total_assets_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Assets']) #Итого активы компании
         except KeyError or TypeError:
-            self.total_assets_now = 0
+            self.total_assets_now = 'N/A'
         try:
             self.total_liab_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Liab']) #Итого обязательства компании
         except KeyError or TypeError:
-            self.total_liab_now = 0
+            self.total_liab_now = 'N/A'
         try:
             self.total_stockholder_equity_now = int(symbol_company.balance_sheet.get(symbol_company.balance_sheet.columns[0])['Total Stockholder Equity']) #Итого акционерный капитал компании
         except KeyError or TypeError:
-            self.total_stockholder_equity_now = 0
-        self.dividends_of_company_now_per_year_in_dollar = object_of_company_info['dividendRate'] #Дивиденды в долларах данной компании за год 
+            self.total_stockholder_equity_now = 'N/A'
+        try:
+            self.dividends_of_company_now_per_year_in_dollar = object_of_company_info['dividendRate'] #Дивиденды в долларах данной компании за год 
+        except KeyError or TypeError:
+            self.dividends_of_company_now_per_year_in_dollar = 'N/A'
         self.dividends_of_company_now_per_year_in_dollar = 'N/A' if self.dividends_of_company_now_per_year_in_dollar == None else self.dividends_of_company_now_per_year_in_dollar
         self.dividends_of_company_now_per_year_in_persent = round(self.dividends_of_company_now_per_year_in_dollar*100.0/float(self.current_prise_share_now_of_company), 2) if self.dividends_of_company_now_per_year_in_dollar != 'N/A' else 'N/A'#Дивиденды в процентах данной компании за год 
         try:
