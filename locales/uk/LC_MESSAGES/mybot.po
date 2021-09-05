@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-05 13:36+0300\n"
+"POT-Creation-Date: 2021-09-05 16:54+0300\n"
 "PO-Revision-Date: 2021-08-15 21:51+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -84,20 +84,20 @@ msgstr "Порівняння компаній за ознакою: "
 
 #: handlers/users/comparison.py:59 handlers/users/comparison.py:64
 #: handlers/users/information_from_ticker.py:20
-#: handlers/users/select_companies.py:99
+#: handlers/users/select_companies.py:101
 msgid "Отмена"
 msgstr "Відміна"
 
 #: handlers/users/comparison.py:62 handlers/users/information_from_ticker.py:18
-#: handlers/users/select_companies.py:88
+#: handlers/users/select_companies.py:90
 #: keyboards/default/choise_information_from_tiker_button.py:22
-#: keyboards/default/start_button.py:27
+#: keyboards/default/start_button.py:25
 #: keyboards/inline/choise_comparison.py:78
 #: keyboards/inline/chose_select_company.py:22
 msgid "Назад 👈"
 msgstr "Повернутися 👈"
 
-#: handlers/users/comparison.py:67 keyboards/default/start_button.py:11
+#: handlers/users/comparison.py:67 keyboards/default/start_button.py:9
 msgid "Сравнить компании 🧐"
 msgstr "Порівняти компанії 🧐"
 
@@ -258,21 +258,21 @@ msgstr ""
 "Apple: AAPL \n"
 "General Electric: GE"
 
-#: handlers/users/select_companies.py:84
+#: handlers/users/select_companies.py:86
 msgid "Продолжить 🆗"
 msgstr "Продовжити 🆗"
 
-#: handlers/users/select_companies.py:126
-#: handlers/users/select_companies.py:224
+#: handlers/users/select_companies.py:132
+#: handlers/users/select_companies.py:230
 msgid "Тикер / "
 msgstr "Тікер / "
 
-#: handlers/users/select_companies.py:126
+#: handlers/users/select_companies.py:132
 msgid "Индекс /"
 msgstr "Індекс /"
 
-#: handlers/users/select_companies.py:137
-#: handlers/users/select_companies.py:235
+#: handlers/users/select_companies.py:143
+#: handlers/users/select_companies.py:241
 msgid ""
 "\n"
 "Для получения полной информации, загрузите EXCEL таблицу"
@@ -280,12 +280,12 @@ msgstr ""
 "\n"
 "Для отримання повної інформації загрузіть EXCEL таблицю"
 
-#: handlers/users/select_companies.py:139
-#: handlers/users/select_companies.py:237
+#: handlers/users/select_companies.py:145
+#: handlers/users/select_companies.py:243
 msgid "К сожалению, компаний с данынми параметрами не существует"
 msgstr "Нажаль, компаній за даними параметрами не існує"
 
-#: handlers/users/select_companies.py:157
+#: handlers/users/select_companies.py:163
 msgid ""
 "Введите значение от и до для данных атрибутов через запятую в формате:\n"
 "\"20_\" - от 20 до maximum \n"
@@ -303,11 +303,11 @@ msgstr ""
 "Послідовність:\n"
 "{attrbut_text}"
 
-#: handlers/users/select_companies.py:161
-msgid "Вы не выбрали ни одного признака для сравнения"
-msgstr "Ви не обрали ознак для порівняння"
+#: handlers/users/select_companies.py:167
+msgid "Вы не выбрали ни одного признака для формирования выборки"
+msgstr "Ви не обрали ознак для формування вибірки"
 
-#: handlers/users/select_companies.py:173
+#: handlers/users/select_companies.py:179
 msgid ""
 "В тексте присутствуют некорректные символы, пожалуйста повторите ввод\n"
 "Разрешенные символы: 0 1 2 3 4 5 6 7 8 9 . , - _"
@@ -315,17 +315,17 @@ msgstr ""
 "В тексті присутні некоректні символи, будь ласка повторіть введення\n"
 "Дозволені символи: 0 1 2 3 4 5 6 7 8 9 . , - _"
 
-#: handlers/users/select_companies.py:184
+#: handlers/users/select_companies.py:190
 msgid ""
-"Количество выбранных для сравнения атрибутов не соответсвует количеству "
-"введенных чисел\n"
+"Количество выбранных для формирования списка компаний атрибутов не "
+"соответсвует количеству введенных чисел\n"
 "Пожалуйста еще раз сделайте ваш выбор"
 msgstr ""
-"Кількість обраних для порівняння атрибутів не відповідає кількості "
+"Кількість обраних для формування списка компаній атрибутів не відповідає кількості "
 "введених чисел\n"
 "Будь ласка, ще раз зробіть ваш вибір"
 
-#: handlers/users/select_companies.py:207
+#: handlers/users/select_companies.py:213
 msgid ""
 "Некорректные параметры, значение \"от\" больше значения \"до\"\n"
 "Пожалуйста еще раз сделайте ваш выбор"
@@ -333,7 +333,7 @@ msgstr ""
 "Некоректні параметри, значення \"від\" більше значення \"до\"\n"
 "Будь ласка, ще раз зробіть ваш вибір"
 
-#: handlers/users/select_companies.py:221
+#: handlers/users/select_companies.py:227
 msgid ""
 "Некорректные данные\n"
 "Пожалуйста еще раз сделайте ваш выбор"
@@ -341,23 +341,23 @@ msgstr ""
 "Некоректні данні\n"
 "Будь ласка, ще раз зробіть ваш вибір"
 
-#: handlers/users/select_companies.py:224
+#: handlers/users/select_companies.py:230
 msgid "Индекс / "
 msgstr "Індекс / "
 
-#: handlers/users/select_companies.py:256 keyboards/default/start_button.py:14
+#: handlers/users/select_companies.py:262 keyboards/default/start_button.py:12
 msgid "Подобрать компании 🤑"
 msgstr "Підібрати компанії 🤑"
 
-#: handlers/users/select_companies.py:268
+#: handlers/users/select_companies.py:275
 msgid "Выберите признаки на которых будет основываться подбор"
 msgstr "Виберіть ознаки на яких буде ґрунтуватися підбір"
 
-#: handlers/users/select_companies.py:296
+#: handlers/users/select_companies.py:303
 msgid "Главная страница"
 msgstr "Головна сторінка"
 
-#: handlers/users/start.py:10 keyboards/default/start_button.py:51
+#: handlers/users/start.py:10 keyboards/default/start_button.py:49
 msgid "🔑"
 msgstr ""
 
@@ -373,7 +373,7 @@ msgstr ""
 msgid "Выберите язык"
 msgstr "Виберіть мову"
 
-#: handlers/users/start.py:24 keyboards/default/start_button.py:17
+#: handlers/users/start.py:24 keyboards/default/start_button.py:15
 msgid "Изменить язык ✍️"
 msgstr "Змінити мову ✍️"
 

@@ -17,7 +17,14 @@ async def start_admin(message: types.Message):
         for e in elem:
             text += str(e) + ', '
         text += '\n'
-    await message.answer(text = text)
+    if len(text) > 4096:
+        for x in range(0, len(text), 4096):
+            if len(text) - x < 4096:
+                await message.answer(text=text[x:x+4096])
+            else:
+                await message.answer(text=text[x:x+4096])
+    else:
+        await message.answer(text = text)
 
 @dp.message_handler(Command('update_basa_dow_sp'), IsAdmin())
 async def update_basa(message: types.Message):

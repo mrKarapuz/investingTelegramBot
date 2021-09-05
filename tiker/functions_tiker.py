@@ -46,7 +46,7 @@ def number_conversion(number):
             number = int(fabs(number))
     except TypeError:
         return '0'
-    if 999 < number < 1000000:
+    if 9999 < number < 1000000:
         number = str(float(str(number)[:-1]) / 100) + 'K'
     elif 999999 < number < 1000000000:
         number = str(float(str(number)[:-4]) / 100) + 'M'

@@ -70,7 +70,7 @@ dict_select_company_UKRANIAN = {
 
 letters = ('A', 'B', 'C', 'D', 'E', 'G', 'H', 'I', 'J', 'K', 'L')
 letters_coma = ('F', 'M', 'N', 'O', 'P')
-tuple_of_xlsx = ("Название компании", "Тикер", "Входит в индекс", "Сектор", "Капитализация", "Количество акций", "Цена", "Общий доход", "Чистая прибыль", "Активы", "Обязательства", "Акционерный капитал", "Дивиденды ($)", "Дивиденды (%)", "Прибыль на акцию", "Цена\прибыль")
+tuple_of_xlsx_RUSSIAN = ("Название компании", "Тикер", "Входит в индекс", "Сектор", "Капитализация", "Количество акций", "Цена", "Общий доход", "Чистая прибыль", "Активы", "Обязательства", "Акционерный капитал", "Дивиденды ($)", "Дивиденды (%)", "Прибыль на акцию", "Цена\прибыль")
 tuple_of_xlsx_ENGLISH = ("The name of the company", "Ticker", "Indexed", "Sector", "Capitalization", "Number of shares", "Price", "Total income", "Net profit", "Assets", "Commitments", "Share capital", "Dividends ($)", "Dividends (%)", "EPS", "P/E")
 tuple_of_xlsx_UKRANIAN = ("Назва компанії", "Тікер", "Входить у індекс", "Сектор", "Капіталізація", "Кількість акцій", "Ціна", "Загальний дохід", "Чистий прибуток", "Активи", "Зобов'язання", "Акціонерний капітал", "Дивіденди ($)", "Дивіденди (%)", "Прибуток на акцію", "Ціна/прибуток")
 
@@ -164,7 +164,7 @@ async def continue_select(call: types.CallbackQuery, state: FSMContext):
             await SelectCompanies.enter_numbers.set()
         await state.update_data(msg_id=msg.message_id, attrbut=attrbut, attrbut_text=attrbut_text)
     else:
-        await call.message.answer(text=_('Вы не выбрали ни одного признака для сравнения'), reply_markup=start_button)
+        await call.message.answer(text=_('Вы не выбрали ни одного признака для формирования выборки'), reply_markup=start_button)
         await state.finish()
         return 0
 
@@ -187,7 +187,7 @@ async def enter_numbers(message: types.Message, state: FSMContext):
         lenattrbut-=1
     if lenattrbut != len(numbers):
         await SelectCompanies.enter_the_sign.set()
-        msg = await message.answer(text=_('Количество выбранных для сравнения атрибутов не соответсвует количеству введенных чисел\nПожалуйста еще раз сделайте ваш выбор'), reply_markup=do_inline_select_company(data.get('keybord')))
+        msg = await message.answer(text=_('Количество выбранных для формирования списка компаний атрибутов не соответсвует количеству введенных чисел\nПожалуйста еще раз сделайте ваш выбор'), reply_markup=do_inline_select_company(data.get('keybord')))
         await state.update_data(msg_id = msg.message_id)
     else:
         for elem in attrbut: 
@@ -311,11 +311,14 @@ async def send_xlsx(call: CallbackQuery, state: FSMContext):
     file = './xlsx/'+str(call.from_user.id)+'.xlsx'
     wb = openpyxl.Workbook()
     sheet = wb.active
-    
+    tuple_of_xlsx = ()
     if language_user_select_companies == 'en':
         tuple_of_xlsx = tuple_of_xlsx_ENGLISH
     elif language_user_select_companies == 'uk':
         tuple_of_xlsx = tuple_of_xlsx_UKRANIAN
+    else: 
+        tuple_of_xlsx=tuple_of_xlsx_RUSSIAN
+    
 
 
     # Заголовки таблицы
