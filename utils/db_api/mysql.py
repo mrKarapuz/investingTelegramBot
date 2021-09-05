@@ -39,6 +39,9 @@ class Database:
         sql = f"UPDATE `investing_users` SET `user_language`='{language}' WHERE id = {id}"
         return self.execute(sql=sql, fetchone=True)
 
+    def delete_dead_companies(self):
+        return self.execute(sql='DELETE FROM `companies` WHERE sector IS NULL')
+
     def add_tickers(self, GeneraInformationOfCompany, nasdaq):
         dow = yfs.tickers_dow()
         sp = yfs.tickers_sp500()
@@ -48,46 +51,57 @@ class Database:
             list_of_company = nasdaq_list   
         else:
             list_of_company = sorted(list(set(sp)))
-        len_list_of_company = len(list_of_company)
-        # list_of_company=['ACVA']
+        if 'AGRIW' in list_of_company:
+            list_of_company.remove('AGRIW')
         for elem in list_of_company:
             company = GeneraInformationOfCompany(elem)
-            name = company.long_name_of_company if company.long_name_of_company != None else 'N/A'
+            name = company.long_name_of_company if company.long_name_of_company != None else None
             date = strftime('%d.%m.%Y\n%H.%M.%S')
             ticker = company.ticker_of_company
             index_company = ''
-            if elem.upper() in dow:
+            indow = 0
+            insp = 0
+            if elem.upper() in dow and elem.upper() in sp:
+                index_company+='DOW SP500'
+                indow = 1
+                insp = 1
+            elif elem.upper() in dow:
                 index_company+='DOW '
-            if elem.upper() in sp:
+                indow = 1
+                insp = 0
+            elif elem.upper() in sp:
                 index_company+='SP500 '
+                indow = 0
+                insp = 1
+            
             sector = company.sector_of_company if company.sector_of_company != 'N/A' else None
-            capitalization = company.market_cap_of_company if company.market_cap_of_company != None else None
-            count_shares = company.count_shares_ofustanding_of_company if company.count_shares_ofustanding_of_company != None else None
-            prise = company.current_prise_share_now_of_company if company.current_prise_share_now_of_company != 'N/A' else None
-            profit = company.profit_of_company_now if company.profit_of_company_now != None else None
-            net_profit = company.net_profit_of_company_now if company.net_profit_of_company_now != 'N/A' else None
-            assets = company.total_assets_now if company.total_assets_now != 'N/A' else None
-            liab = company.total_liab_now if company.total_liab_now != 'N/A' else None
-            stockholder = company.total_stockholder_equity_now if company.total_stockholder_equity_now != 'N/A' else None
-            dividends_per_dollar = company.dividends_of_company_now_per_year_in_dollar if company.dividends_of_company_now_per_year_in_dollar != 'N/A' else None
-            dividends_per_percent = company.dividends_of_company_now_per_year_in_persent if company.dividends_of_company_now_per_year_in_persent != 'N/A' else None
-            eps = company.eps_of_company if company.eps_of_company != 'N/A' else None
-            pe = company.pe_ratio_of_company if company.pe_ratio_of_company != 'N/A' else None
-            sql = "INSERT INTO `companies` (`name`, `date`, `ticker`, `index_company`, `sector`, `capitalizacion`, `count_shares`, `prise`, `profit`, `net_profit`, `assets`, `liab`, `stockholder`, `dividends_per_dollar`, `dividends_per_percent`, `eps`, `pe`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            param = (name, date, ticker, index_company, sector, capitalization, count_shares, prise, profit, net_profit, assets, liab, stockholder, dividends_per_dollar, dividends_per_percent, eps, pe)
+            capitalization = company.market_cap_of_company if company.market_cap_of_company != None or company.market_cap_of_company == 0 else None
+            count_shares = company.count_shares_ofustanding_of_company if company.count_shares_ofustanding_of_company != None or company.count_shares_ofustanding_of_company == 0 else None
+            prise = company.current_prise_share_now_of_company if company.current_prise_share_now_of_company != 'N/A' or company.current_prise_share_now_of_company == 0 else None
+            profit = company.profit_of_company_now if company.profit_of_company_now != None or company.profit_of_company_now == 0 else None
+            net_profit = company.net_profit_of_company_now if company.net_profit_of_company_now != 'N/A' or company.net_profit_of_company_now == 0 else None
+            assets = company.total_assets_now if company.total_assets_now != 'N/A' or company.total_assets_now == 0 else None
+            liab = company.total_liab_now if company.total_liab_now != 'N/A' or company.total_liab_now == 0 else None
+            stockholder = company.total_stockholder_equity_now if company.total_stockholder_equity_now != 'N/A' or company.total_stockholder_equity_now == 0 else None
+            dividends_per_dollar = company.dividends_of_company_now_per_year_in_dollar if company.dividends_of_company_now_per_year_in_dollar != 'N/A' or company.dividends_of_company_now_per_year_in_dollar == 0 else None
+            dividends_per_percent = company.dividends_of_company_now_per_year_in_persent if company.dividends_of_company_now_per_year_in_persent != 'N/A' or company.dividends_of_company_now_per_year_in_persent == 0 else None
+            eps = company.eps_of_company if company.eps_of_company != 'N/A' or company.eps_of_company == 0 else None
+            pe = company.pe_ratio_of_company if company.pe_ratio_of_company != 'N/A' or company.pe_ratio_of_company == 0 else None
+            sql = "INSERT INTO `companies` (`name`, `date`, `ticker`, `index_company`, `indow`, `insp`, `sector`, `capitalizacion`, `count_shares`, `prise`, `profit`, `net_profit`, `assets`, `liab`, `stockholder`, `dividends_per_dollar`, `dividends_per_percent`, `eps`, `pe`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            param = (name, date, ticker, index_company, indow, insp, sector, capitalization, count_shares, prise, profit, net_profit, assets, liab, stockholder, dividends_per_dollar, dividends_per_percent, eps, pe)
             try:
                 self.execute(sql = sql, parameters=param)
                 print(f'Успешно занесено в базу данных: {elem}')
             except:
-                sql = f"UPDATE `companies` SET `name`='{name}', `date`='{date}', `ticker`='{ticker}',`index_company`='{index_company}',`sector`='{sector}',`capitalizacion`='{capitalization}',`count_shares`='{count_shares}',`prise`='{prise}',`profit`='{profit}',`net_profit`='{net_profit}',`assets`='{assets}',`liab`='{liab}',`stockholder`='{stockholder}',`dividends_per_dollar`='{dividends_per_dollar}',`dividends_per_percent`='{dividends_per_percent}',`eps`='{eps}',`pe`='{pe}' WHERE ticker='{elem}'"
+                sql_del = f"DELETE FROM `companies` WHERE ticker='{elem}'"
                 try:
-                    self.execute(sql)
+                    self.execute(sql_del)
+                    self.execute(sql=sql, parameters=param)
                     print(f'Успешно обновлено в базе данных: {elem}')
                 except:
                     print(f'Ошибка, в базу данных не было занесено: {elem}')
                     continue
-            
-            # list_of_company.index(elem) / len_list_of_company * 100
+        self.delete_dead_companies()
         return 'База данных обновлена'
 
     def select_all_users(self):
@@ -102,7 +116,7 @@ class Database:
         return self.execute(sql=sql, fetchall=True)
 
     def select_tickers(self, attributes, add_sql=''):
-        sql_select = 'ticker, '
+        sql_select = 'ticker, index_company, '
         for attr in attributes:
             sql_select += attr + ', '
         sql = f"SELECT {sql_select[:-2]}  FROM `companies` WHERE" + add_sql
@@ -113,3 +127,5 @@ class Database:
         for elem in attributes:
             sql += f"'{elem}' OR ticker="
         return self.execute(sql=sql[:-11], parameters=(), fetchall=True)
+    
+    

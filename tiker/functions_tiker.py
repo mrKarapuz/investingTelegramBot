@@ -357,7 +357,7 @@ class GeneraInformationOfCompany:
         symbol_company = yf.Ticker(symbol)
         object_of_company_info = symbol_company.info
         try:
-            self.long_name_of_company = object_of_company_info['longName'] #Полное название компании
+            self.long_name_of_company = object_of_company_info['longName'] if object_of_company_info['longName'] != None else 'N/A' #Полное название компании
         except:
             self.long_name_of_company = 'N/A'
         try:

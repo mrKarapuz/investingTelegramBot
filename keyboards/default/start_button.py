@@ -5,9 +5,7 @@ from middlewares.internationlization import _
 start_button = ReplyKeyboardMarkup(
     keyboard=[
          [
-             KeyboardButton(text=_('Информация о компании 🤓'))
-         ],
-         [
+             KeyboardButton(text=_('Информация о компании 🤓')),
              KeyboardButton(text=_('Сравнить компании 🧐'))
          ],
          [

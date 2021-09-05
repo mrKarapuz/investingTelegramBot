@@ -1,11 +1,7 @@
-from io import BytesIO
-from aiogram.dispatcher.filters import state
 from aiogram.types.callback_query import CallbackQuery
 from aiogram.types.input_file import InputFile
-from openpyxl import workbook
 from tiker.functions_tiker import number_conversion
 from aiogram.dispatcher.storage import FSMContext
-from aiogram.types import reply_keyboard
 from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 from loader import dp, db
 from aiogram import types
@@ -14,15 +10,15 @@ from keyboards.inline import xls_select_company, inline_cancel_button
 from middlewares.internationlization import _
 from states import SelectCompanies
 from re import compile
-import openpyxl
 from os import remove
-from mysql.connector.errors import ProgrammingError
+import openpyxl
 
 def special_match(strg, search=compile(r'[^0-9\.\-\,\_ ]').search):
+    '''Проверка ввода символов, при выборке цифр'''
     return not bool(search(strg))
 
 dict_select_company = {
-    'Капитализация ' : {'selected': False, 'name': 'capitalizacion'},
+    'Капитализация ': {'selected': False, 'name': 'capitalizacion'},
     'Кол-во акций ': {'selected': False, 'name': 'count_shares'},
     'Цена акции ': {'selected': False, 'name': 'prise'},
     'Общий доход ': {'selected': False, 'name': 'profit'},
@@ -33,12 +29,51 @@ dict_select_company = {
     'Дивиденды ($) ': {'selected': False, 'name': 'dividends_per_dollar'},
     'Дивиденды (%) ': {'selected': False, 'name': 'dividends_per_percent'},
     'Прибыль на акцию ': {'selected': False, 'name': 'eps'},
-    'Цена\прибыль ': {'selected': False, 'name': 'pe'}}
+    'Цена\прибыль ': {'selected': False, 'name': 'pe'},
+    'Входит в DOW ' : {'selected': False, 'name': 'indow'},
+    'Входит в SP500 ' : {'selected': False, 'name': 'insp'},
+    }
+
+dict_select_company_ENGLISH = {
+    'Capitalization ': {'selected': False, 'name': 'capitalizacion'},
+    'Number of shares ': {'selected': False, 'name': 'count_shares'},
+    'Prise ': {'selected': False, 'name': 'prise'},
+    'Total income ': {'selected': False, 'name': 'profit'},
+    'Net profit ': {'selected': False, 'name': 'net_profit'},
+    'Assets ': {'selected': False, 'name': 'assets'},
+    'Commitments ': {'selected': False, 'name': 'liab'},
+    'Share capital ': {'selected': False, 'name': 'stockholder'},
+    'Dividends ($) ': {'selected': False, 'name': 'dividends_per_dollar'},
+    'Dividends (%) ': {'selected': False, 'name': 'dividends_per_percent'},
+    'EPS ': {'selected': False, 'name': 'eps'},
+    'P/E': {'selected': False, 'name': 'pe'},
+    'In DOW ' : {'selected': False, 'name': 'indow'},
+    'In SP500 ' : {'selected': False, 'name': 'insp'},
+    }
+
+dict_select_company_UKRANIAN = {
+    'Капіталізація ': {'selected': False, 'name': 'capitalizacion'},
+    'Кількість акцій ': {'selected': False, 'name': 'count_shares'},
+    'Ціна акції ': {'selected': False, 'name': 'prise'},
+    'Загальний дохід ': {'selected': False, 'name': 'profit'},
+    'Чистий прибуток ': {'selected': False, 'name': 'net_profit'},
+    'Активи ': {'selected': False, 'name': 'assets'},
+    'Зобов`язання ': {'selected': False, 'name': 'liab'},
+    'Акціонерний капітал ': {'selected': False, 'name': 'stockholder'},
+    'Дивіденди ($) ': {'selected': False, 'name': 'dividends_per_dollar'},
+    'Дивіденди (%) ': {'selected': False, 'name': 'dividends_per_percent'},
+    'Прибуток на акцію ': {'selected': False, 'name': 'eps'},
+    'Ціна\прибуток ': {'selected': False, 'name': 'pe'},
+    'Входить у DOW ' : {'selected': False, 'name': 'indow'},
+    'Входить у SP500 ' : {'selected': False, 'name': 'insp'},
+    }
 
 letters = ('A', 'B', 'C', 'D', 'E', 'G', 'H', 'I', 'J', 'K', 'L')
 letters_coma = ('F', 'M', 'N', 'O', 'P')
 tuple_of_xlsx = ("Название компании", "Тикер", "Входит в индекс", "Сектор", "Капитализация", "Количество акций", "Цена", "Общий доход", "Чистая прибыль", "Активы", "Обязательства", "Акционерный капитал", "Дивиденды ($)", "Дивиденды (%)", "Прибыль на акцию", "Цена\прибыль")
-    
+tuple_of_xlsx_ENGLISH = ("The name of the company", "Ticker", "Indexed", "Sector", "Capitalization", "Number of shares", "Price", "Total income", "Net profit", "Assets", "Commitments", "Share capital", "Dividends ($)", "Dividends (%)", "EPS", "P/E")
+tuple_of_xlsx_UKRANIAN = ("Назва компанії", "Тікер", "Входить у індекс", "Сектор", "Капіталізація", "Кількість акцій", "Ціна", "Загальний дохід", "Чистий прибуток", "Активи", "Зобов'язання", "Акціонерний капітал", "Дивіденди ($)", "Дивіденди (%)", "Прибуток на акцію", "Ціна/прибуток")
+
 def do_inline_select_company(board):
     kb = InlineKeyboardMarkup()
     for key, data in board.items():
@@ -76,16 +111,62 @@ async def continue_select(call: types.CallbackQuery, state: FSMContext):
         if value['selected']:
             attrbut.append(value['name'])
             attrbut_text+=key + ', '
-    await state.update_data(attrbut=attrbut, attrbut_text=attrbut_text)    
     add_sql = ''
     if len(attrbut) != 0:
-        msg = await call.message.answer(text=f'Введите значение от и до для данных атрибутов через запятую в формате:\n"20_" - от 20 до maximum \n"_1000" - от minimum до 1000\n"20_1000" - от 20 до 1000\n\nПоследовательность:\n{attrbut_text[:-3]}', reply_markup=inline_cancel_button)
-        await state.update_data(msg_id = msg.message_id)
+        if 'indow' in attrbut:
+            attrbut_text=attrbut_text.replace('In DOW , ', '')
+            attrbut_text=attrbut_text.replace('Входит в DOW , ', '')
+            attrbut_text=attrbut_text.replace('Входить у DOW , ', '')
+        if 'insp' in attrbut:
+            attrbut_text=attrbut_text.replace('Входит в SP500 , ', '')
+            attrbut_text=attrbut_text.replace('In SP500 , ', '')
+            attrbut_text=attrbut_text.replace('Входить у SP500 , ', '')
+        if len(attrbut)<= 2 and (('insp' in attrbut) or ('indow' in attrbut)) and ('capitalizacion' not in attrbut) and ('count_shares' not in attrbut) and ('prise' not in attrbut) and ('profit' not in attrbut) and ('net_profit' not in attrbut) and ('assets' not in attrbut) and ('liab' not in attrbut) and ('stockholder' not in attrbut) and ('dividends_per_dollar' not in attrbut) and ('dividends_per_percent' not in attrbut) and ('eps' not in attrbut) and ('pe' not in attrbut):
+            if 'indow' in attrbut and 'insp' in attrbut:
+                add_sql = ' indow = 1 AND insp = 1'
+            elif 'insp' in attrbut:
+                add_sql = ' insp = 1'
+            elif 'indow' in attrbut:
+                add_sql = ' indow = 1'
+            ansver = db.select_tickers(attributes=attrbut, add_sql=add_sql)
+            answer_user = _('Тикер / ') + _('Индекс /') + '\n'
+            tickers_to_load_xlsx = []
+            for elem in ansver:
+                tickers_to_load_xlsx.append(elem[0])
+                ans = ''
+                for e in elem:
+                    if type(e) == float or type(e) == int:
+                        pass
+                    else: 
+                        ans += str(e)+ ' / '
+                answer_user+=ans[:-2] + '/\n' 
+            answer_user +=_('\nДля получения полной информации, загрузите EXCEL таблицу')
+            if len(ansver) == 0:
+                await call.message.answer(text=_('К сожалению, компаний с данынми параметрами не существует'), reply_markup=start_button)
+                await state.finish()
+                return 0
+            if len(answer_user) > 4096:
+                msg_id = []
+                for x in range(0, len(answer_user), 4096):
+                    if len(answer_user) - x < 4096:
+                        msg = await call.message.answer(text=answer_user[x:x+4096], reply_markup=xls_select_company)
+                        msg_id.append(msg.message_id)
+                    else:
+                        msg = await call.message.answer(text=answer_user[x:x+4096])
+                        msg_id.append(msg.message_id)
+            else:
+                msg = await call.message.answer(text=answer_user, reply_markup=xls_select_company)
+                msg_id = msg.message_id
+            await state.update_data(tickers = tickers_to_load_xlsx, msg_id = msg_id)
+            await SelectCompanies.download_xlsx.set()
+        else:
+            msg = await call.message.answer(text=_('Введите значение от и до для данных атрибутов через запятую в формате:\n"20_" - от 20 до maximum \n"_1000" - от minimum до 1000\n"20_1000" - от 20 до 1000\n\nПоследовательность:\n{attrbut_text}').format(attrbut_text=attrbut_text[:-3]), reply_markup=inline_cancel_button)
+            await SelectCompanies.enter_numbers.set()
+        await state.update_data(msg_id=msg.message_id, attrbut=attrbut, attrbut_text=attrbut_text)
     else:
-        await call.message.answer(text='Вы не выбрали ни одного признака для сравнения', reply_markup=start_button)
+        await call.message.answer(text=_('Вы не выбрали ни одного признака для сравнения'), reply_markup=start_button)
         await state.finish()
         return 0
-    await SelectCompanies.enter_numbers.set()
 
 @dp.message_handler(state = SelectCompanies.enter_numbers)
 async def enter_numbers(message: types.Message, state: FSMContext):
@@ -95,23 +176,41 @@ async def enter_numbers(message: types.Message, state: FSMContext):
     add_sql = ''
     if special_match(message.text) == False:
         await SelectCompanies.enter_the_sign.set()
-        msg = await message.answer(text='В тексте присутствуют некорректные символы, пожалуйста повторите ввод\nРазрешенные символы: 0 1 2 3 4 5 6 7 8 9 . , - _', reply_markup=do_inline_select_company(data.get('keybord'))) 
+        msg = await message.answer(text=_('В тексте присутствуют некорректные символы, пожалуйста повторите ввод\nРазрешенные символы: 0 1 2 3 4 5 6 7 8 9 . , - _'), reply_markup=do_inline_select_company(data.get('keybord'))) 
         await state.update_data(msg_id = msg.message_id)
         return 0
     numbers = message.text.replace(' ', '').split(',')
-    if len(attrbut) != len(numbers):
+    lenattrbut = len(attrbut)
+    if 'indow' in attrbut:
+        lenattrbut-=1
+    if 'insp' in attrbut:
+        lenattrbut-=1
+    if lenattrbut != len(numbers):
         await SelectCompanies.enter_the_sign.set()
-        msg = await message.answer(text='Количество выбранных для сравнения атрибутов не соответсвует количеству введенных чисел\nПожалуйста еще раз сделайте ваш выбор', reply_markup=do_inline_select_company(data.get('keybord')))
+        msg = await message.answer(text=_('Количество выбранных для сравнения атрибутов не соответсвует количеству введенных чисел\nПожалуйста еще раз сделайте ваш выбор'), reply_markup=do_inline_select_company(data.get('keybord')))
         await state.update_data(msg_id = msg.message_id)
     else:
         for elem in attrbut: 
+            if elem == 'indow' and 'insp' in attrbut:
+                add_sql += ' indow = 1 AND insp = 1 AND'
+                attrbut.remove(elem)
+                attrbut.remove('insp')
+                continue
+            if elem == 'indow':
+                add_sql += ' indow = 1 AND'
+                attrbut.remove(elem)
+                continue
+            if elem == 'insp':
+                add_sql += ' insp = 1 AND'
+                attrbut.remove(elem)
+                continue
             if bool(numbers[0]):
                 FROM = numbers[0][:numbers[0].find('_')]
                 TO = numbers[0][numbers[0].find('_') + 1:] 
                 if FROM and TO:
                     if FROM > TO:
                         await SelectCompanies.enter_the_sign.set()
-                        msg = await message.answer(text='Некорректные параметры, значение "от" больше значения "до"\nПожалуйста еще раз сделайте ваш выбор', reply_markup=do_inline_select_company(data.get('keybord')))
+                        msg = await message.answer(text=_('Некорректные параметры, значение "от" больше значения "до"\nПожалуйста еще раз сделайте ваш выбор'), reply_markup=do_inline_select_company(data.get('keybord')))
                         await state.update_data(msg_id = msg.message_id)
                         return 0
                     add_sql += f" {elem} BETWEEN {FROM} AND {TO} AND"
@@ -125,11 +224,10 @@ async def enter_numbers(message: types.Message, state: FSMContext):
             ansver = db.select_tickers(attributes=attrbut, add_sql=add_sql)
         except:
             await SelectCompanies.enter_the_sign.set()
-            msg = await message.answer(text='Некорректные данные\nПожалуйста еще раз сделайте ваш выбор', reply_markup=do_inline_select_company(data.get('keybord')))
+            msg = await message.answer(text=_('Некорректные данные\nПожалуйста еще раз сделайте ваш выбор'), reply_markup=do_inline_select_company(data.get('keybord')))
             await state.update_data(msg_id = msg.message_id)
             return 0
-        
-        answer_user = 'Тикер / ' + str(data.get('attrbut_text')).replace(', ', ' / ') + '\n'
+        answer_user = _('Тикер / ') + _('Индекс / ') + str(data.get('attrbut_text')).replace(', ', ' / ') + '\n'
         tickers_to_load_xlsx = []
         for elem in ansver:
             tickers_to_load_xlsx.append(elem[0])
@@ -140,9 +238,9 @@ async def enter_numbers(message: types.Message, state: FSMContext):
                 else: 
                     ans += str(e)+ ' / '
             answer_user+=ans[:-2] + '/\n' 
-        answer_user +='\nДля получения полной информации, загрузите EXCEL таблицу'
+        answer_user +=_('\nДля получения полной информации, загрузите EXCEL таблицу')
         if len(ansver) == 0:
-            await message.answer(text='К сожалению, компаний, входящих в индексы S&P или DOW, с данынми параметрами не существует', reply_markup=start_button)
+            await message.answer(text=_('К сожалению, компаний с данынми параметрами не существует'), reply_markup=start_button)
             await state.finish()
             return 0
         if len(answer_user) > 4096:
@@ -161,10 +259,17 @@ async def enter_numbers(message: types.Message, state: FSMContext):
         await SelectCompanies.download_xlsx.set()
         
 
-@dp.message_handler(text='Подобрать компании 🤑')
+@dp.message_handler(text=_('Подобрать компании 🤑'))
 async def select_sign(message: types.Message, state: FSMContext):
+    global language_user_select_companies
+    language_user_select_companies = db.select_user_language(message.from_user.id)[0]
     await SelectCompanies.enter_the_sign.set()
-    await state.update_data(keybord = dict_select_company)
+    if language_user_select_companies == 'en':
+        await state.update_data(keybord = dict_select_company_ENGLISH)
+    elif language_user_select_companies == 'uk':
+        await state.update_data(keybord = dict_select_company_UKRANIAN)
+    else:
+        await state.update_data(keybord = dict_select_company)
     data = await state.get_data()
     keybord = data.get('keybord')
     msg = await message.answer(_('Выберите признаки на которых будет основываться подбор'), reply_markup=do_inline_select_company(keybord))
@@ -206,6 +311,13 @@ async def send_xlsx(call: CallbackQuery, state: FSMContext):
     file = './xlsx/'+str(call.from_user.id)+'.xlsx'
     wb = openpyxl.Workbook()
     sheet = wb.active
+    
+    if language_user_select_companies == 'en':
+        tuple_of_xlsx = tuple_of_xlsx_ENGLISH
+    elif language_user_select_companies == 'uk':
+        tuple_of_xlsx = tuple_of_xlsx_UKRANIAN
+
+
     # Заголовки таблицы
     for i in range(1, len(tuple_of_xlsx) + 1):
         sheet.cell(row=1, column=i).value = tuple_of_xlsx[i-1]
@@ -224,7 +336,6 @@ async def send_xlsx(call: CallbackQuery, state: FSMContext):
             sheet[f'F{str(index)}'].style = 'Comma [0]'
         sheet[f'{letter}1'].style = '40 % - Accent2'
         sheet['F1'].style = '40 % - Accent2'
-        
     # Выравнивание
     for col in sheet.columns:
         for cell in col:
